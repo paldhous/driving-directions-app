@@ -74,9 +74,9 @@ zoom: 6
 	
 // add geocoder
 const geocoder = new MapboxGeocoder({
-				countries: 'us',
         accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
+        mapboxgl: mapboxgl,
+        countries: 'us'
     });
 
 map.addControl(geocoder, 'top-left');
