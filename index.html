@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<title>New Mexico</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css"/>
+
+<style>
+body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#directions {
+  position: absolute;
+  bottom: 20px;
+  width: 300px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<div id='directions'><div>
+
+<script>
+
+
+// supply mapbox access token
+mapboxgl.accessToken = 
+	'pk.eyJ1IjoiYWxkaG91c3AiLCJhIjoiY2pueHpmeGNxMGhxNjNxbXhpMzViNGUyZSJ9.FQiJVij9bPb65b2jTDtBGA';
+
+// get the users' location (if allowed) 
+var userLongitude;
+var userLatitude;
+var directions;
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      userLatitude = position.coords.latitude;
+      userLongitude = position.coords.longitude;
+    },
+    function(error) {
+      console.error('Error getting user location:', error.message);
+    }
+  );
+} else {
+  console.error('Geolocation is not supported by this browser.');
+}
+
+// set up map centered on New Mexico
+const map = new mapboxgl.Map({
+container: 'map', // container ID
+style: 'mapbox://styles/mapbox/light-v11', // style URL
+center: [-106.112222,34.438056],
+zoom: 6
+});
+	
+// add geocoder
+const geocoder = new MapboxGeocoder({
+				countries: 'us',
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    });
+
+map.addControl(geocoder, 'top-left');
+
+// load the geojson with the locations
+fetch('locations.geojson')
+.then(function(response) {
+  return response.json();
+})
+.then(function(data) {
+  geojson = data; // Assign the loaded GeoJSON to the variable
+
+  // Add all the locations to the map (you don't have to do this)
+  map.addSource('myGeoJSON', {
+    type: 'geojson',
+    data: geojson
+  });
+
+  map.addLayer({
+    id: 'myGeoJSONLayer',
+    type: 'circle',
+    source: 'myGeoJSON',
+    paint: {
+      'circle-radius': 6,
+      'circle-color': '#000000',
+      'circle-opacity': 0.5
+    }
+  })
+});
+
+// this runs on map load if user's location has been determined	already
+map.on('load', function(e) {
+// get the users' location (if allowed)
+var userPoint = turf.point([userLongitude, userLatitude]);
+
+// find the nearest doctor to the users' location using turf.nearestPoint
+var nearestPoint = turf.nearestPoint(userPoint, geojson);
+var nearestPointCoordinates = nearestPoint.geometry.coordinates;
+var address = nearestPoint.properties.address;
+
+// Add a marker to the nearest point
+// var marker = new mapboxgl.Marker()
+// 	.setLngLat(nearestPointCoordinates)
+// 	.addTo(map)
+
+// get driving route
+var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' +
+userLongitude + ',' + userLatitude + ';' +
+nearestPointCoordinates[0] + ',' + nearestPointCoordinates[1] +
+'?&geometries=geojson&steps=true&overview=full&access_token=' + mapboxgl.accessToken;
+
+fetch(directionsRequest)
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+	// console.log(data)
+		// distance in miles
+		var distance = Math.round(data.routes[0].distance/1609.34);
+		// drivetime in minutes
+		var drivetime = Math.round(data.routes[0].duration/60);
+		// route
+		var routeGeometry = data.routes[0].geometry;
+
+		// Write route information to HTML
+	 	document.getElementById('directions').innerHTML =
+	 	'<h4>Nearest location:</h4>' +
+	 	'<b>Address:</b> ' + address + '<br>' +
+        '<b>Distance:</b> ' + distance.toLocaleString() + ' miles<br>' +
+        '<b>Driving time:</b> ' + drivetime.toLocaleString() + ' minutes';
+
+		// add route to map
+		map.addSource('route', {
+			type: 'geojson',
+			data: {
+	  		type: 'Feature',
+	  		properties: {},
+	  		geometry: routeGeometry
+	  		}
+  		});
+	
+		map.addLayer({
+		    id: 'route',
+		    type: 'line',
+		    source: 'route',
+		    layout: {
+		              'line-join': 'round',
+		              'line-cap': 'round'
+		            },
+		    paint: {
+		              'line-color': '#0074D9',
+		              'line-width': 4
+		            }
+	    });
+	
+	// fit map to route
+	var routeBounds = turf.bbox(routeGeometry);
+	map.fitBounds(routeBounds, { padding: 50 });
+
+ 	});
+
+ });
+
+// this runs on geocode search
+geocoder.on('result', function(e) {
+
+// get the search location
+var searchPoint = turf.point([e.result.center[0], e.result.center[1]]);
+
+// find the nearest doctor to the search location using turf.nearestPoint
+var nearestPoint = turf.nearestPoint(searchPoint, geojson);
+var nearestPointCoordinates = nearestPoint.geometry.coordinates;
+var address = nearestPoint.properties.address;
+
+// Add a marker to the nearest point
+// var marker = new mapboxgl.Marker()
+// 	.setLngLat(nearestPointCoordinates)
+// 	.addTo(map)
+
+// get driving route
+var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' +
+e.result.center[0] + ',' + e.result.center[1] + ';' +
+nearestPointCoordinates[0] + ',' + nearestPointCoordinates[1] +
+'?&geometries=geojson&steps=true&overview=full&access_token=' + mapboxgl.accessToken;
+
+fetch(directionsRequest)
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+	// console.log(data)
+		// distance in miles
+		var distance = Math.round(data.routes[0].distance/1609.34);
+		// drivetime in minutes
+		var drivetime = Math.round(data.routes[0].duration/60);
+		// route
+		var routeGeometry = data.routes[0].geometry;
+
+		// clear previous route if it exists
+          if (map.getLayer('route')) {
+            map.removeLayer('route');
+          }
+          if (map.getSource('route')) {
+            map.removeSource('route');
+          }
+
+		// write route information to HTML
+	 	document.getElementById('directions').innerHTML =
+	 	'<h4>Nearest location:</h4>' +
+	 	'<b>Address:</b> ' + address + '<br>' +
+        '<b>Distance:</b> ' + distance.toLocaleString() + ' miles<br>' +
+        '<b>Driving time:</b> ' + drivetime.toLocaleString() + ' minutes';
+
+		map.addSource('route', {
+			type: 'geojson',
+			data: {
+	  		type: 'Feature',
+	  		properties: {},
+	  		geometry: routeGeometry
+	  		}
+  		});
+	
+		map.addLayer({
+		    id: 'route',
+		    type: 'line',
+		    source: 'route',
+		    layout: {
+		              'line-join': 'round',
+		              'line-cap': 'round'
+		            },
+		    paint: {
+		              'line-color': '#0074D9',
+		              'line-width': 4
+		            }
+	    });
+	
+	// fit map to route
+	var routeBounds = turf.bbox(routeGeometry);
+	map.fitBounds(routeBounds, { padding: 50 });
+
+ 	});
+
+ });
+
+
+</script>
+ 
+</body>
+</html>
