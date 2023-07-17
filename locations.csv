@@ -1,10 +1,10 @@
-latitude,longitude,name,desc,color,source,precision
-35.09257,-106.659191,1111 LOMAS BLVD ALBUQUERQUE NM 87102-1853 USA,"1111 Lomas Blvd NW, Albuquerque, NM 87102",,Bing Maps,address
-35.1507517,-106.6247433,320 OSUNA RD ALBUQUERQUE NM 87107-5953 USA,"320 Osuna Rd NW, Albuquerque, NM 87107",,Bing Maps,address
-35.120381,-106.492559,3301 EMBUDITO DR ALBUQUERQUE NM 87111-5542 USA,"3301 Embudito Dr NE, Albuquerque, NM 87111",,Bing Maps,address
-35.2154355,-106.7017134,5800 DAY DREAMER RD ALBUQUERQUE NM 87114-5083 USA,"5800 Day Dreamer Rd NW, Albuquerque, NM 87114",,Bing Maps,address
-35.2516368,-106.7051991,1501 ARLENE RD RIO RANCHO NM 87124-2715 USA,"1501 Arlene Rd SE, Rio Rancho, NM 87124",,Bing Maps,address
-35.634985,-106.0615101,7401 WOLF CREEK RD SANTA FE NM 87507-8108 USA,"7401 Wolf Creek Rd, Santa Fe, NM 87507",,Bing Maps,address
-35.8840807,-106.2989927,1505 15TH ST LOS ALAMOS NM 87544-3000 USA,"1505 15th St, Los Alamos, NM 87544",,Bing Maps,address
-32.2737258,-106.7664519,3401 HARRELSON ST LAS CRUCES NM 88005-3770 USA,"3401 Harrelson St, Las Cruces, NM 88005",,Bing Maps,address
-32.2857737,-106.8571431,5300 SPIRIT RIDGE RD LAS CRUCES NM 88007-4988 USA,"5300 Spirit Ridge Rd, Las Cruces, NM 88007",,Bing Maps,address
+address
+"1111 Lomas Blvd NW, Albuquerque, NM 87102"
+"320 Osuna Rd NW, Albuquerque, NM 87107"
+"3301 Embudito Dr NE, Albuquerque, NM 87111"
+"5800 Day Dreamer Rd NW, Albuquerque, NM 87114"
+"1501 Arlene Rd SE, Rio Rancho, NM 87124"
+"7401 Wolf Creek Rd, Santa Fe, NM 87507"
+"1505 15th St, Los Alamos, NM 87544"
+"3401 Harrelson St, Las Cruces, NM 88005"
+"5300 Spirit Ridge Rd, Las Cruces, NM 88007"

@@ -3,14 +3,14 @@
 "name": "locations",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "address": "1111 Lomas Blvd NW, Albuquerque, NM 87102" }, "geometry": { "type": "Point", "coordinates": [ -106.659191, 35.09257 ] } },
-{ "type": "Feature", "properties": { "address": "320 Osuna Rd NW, Albuquerque, NM 87107" }, "geometry": { "type": "Point", "coordinates": [ -106.6247433, 35.1507517 ] } },
-{ "type": "Feature", "properties": { "address": "3301 Embudito Dr NE, Albuquerque, NM 87111" }, "geometry": { "type": "Point", "coordinates": [ -106.492559, 35.120381 ] } },
-{ "type": "Feature", "properties": { "address": "5800 Day Dreamer Rd NW, Albuquerque, NM 87114" }, "geometry": { "type": "Point", "coordinates": [ -106.7017134, 35.2154355 ] } },
-{ "type": "Feature", "properties": { "address": "1501 Arlene Rd SE, Rio Rancho, NM 87124" }, "geometry": { "type": "Point", "coordinates": [ -106.7051991, 35.2516368 ] } },
-{ "type": "Feature", "properties": { "address": "7401 Wolf Creek Rd, Santa Fe, NM 87507" }, "geometry": { "type": "Point", "coordinates": [ -106.0615101, 35.634985 ] } },
-{ "type": "Feature", "properties": { "address": "1505 15th St, Los Alamos, NM 87544" }, "geometry": { "type": "Point", "coordinates": [ -106.2989927, 35.8840807 ] } },
-{ "type": "Feature", "properties": { "address": "3401 Harrelson St, Las Cruces, NM 88005" }, "geometry": { "type": "Point", "coordinates": [ -106.7664519, 32.2737258 ] } },
-{ "type": "Feature", "properties": { "address": "5300 Spirit Ridge Rd, Las Cruces, NM 88007" }, "geometry": { "type": "Point", "coordinates": [ -106.8571431, 32.2857737 ] } }
+{ "type": "Feature", "properties": { "address": "1111 Lomas Blvd NW, Albuquerque, NM 87102" }, "geometry": { "type": "Point", "coordinates": [ -106.659361006067996, 35.092355019922003 ] } },
+{ "type": "Feature", "properties": { "address": "320 Osuna Rd NW, Albuquerque, NM 87107" }, "geometry": { "type": "Point", "coordinates": [ -106.636516782293, 35.153137369583 ] } },
+{ "type": "Feature", "properties": { "address": "3301 Embudito Dr NE, Albuquerque, NM 87111" }, "geometry": { "type": "Point", "coordinates": [ -106.492505979954004, 35.120408998393003 ] } },
+{ "type": "Feature", "properties": { "address": "5800 Day Dreamer Rd NW, Albuquerque, NM 87114" }, "geometry": { "type": "Point", "coordinates": [ -106.701719959593007, 35.215443016595998 ] } },
+{ "type": "Feature", "properties": { "address": "1501 Arlene Rd SE, Rio Rancho, NM 87124" }, "geometry": { "type": "Point", "coordinates": [ -106.705200130750995, 35.251597313596001 ] } },
+{ "type": "Feature", "properties": { "address": "7401 Wolf Creek Rd, Santa Fe, NM 87507" }, "geometry": { "type": "Point", "coordinates": [ -106.061536878590999, 35.634991184736997 ] } },
+{ "type": "Feature", "properties": { "address": "1505 15th St, Los Alamos, NM 87544" }, "geometry": { "type": "Point", "coordinates": [ -106.298993987171002, 35.884063996320997 ] } },
+{ "type": "Feature", "properties": { "address": "3401 Harrelson St, Las Cruces, NM 88005" }, "geometry": { "type": "Point", "coordinates": [ -106.766918695659001, 32.274515503487997 ] } },
+{ "type": "Feature", "properties": { "address": "5300 Spirit Ridge Rd, Las Cruces, NM 88007" }, "geometry": { "type": "Point", "coordinates": [ -106.858671417184993, 32.285797290439 ] } }
 ]
 }
