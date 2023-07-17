@@ -75,8 +75,9 @@ zoom: 6
 // add geocoder
 const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
+        country: 'us', // limit results to US
+        bbox: [-109.050173,31.332301,-103.001964,37.000232], // limit to bounding box around NM
         mapboxgl: mapboxgl,
-        countries: 'us'
     });
 
 map.addControl(geocoder, 'top-left');
