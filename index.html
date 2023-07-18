@@ -112,7 +112,7 @@ map.on('load', function(e) {
 // get the users' location (if allowed)
 var userPoint = turf.point([userLongitude, userLatitude]);
 
-// find the nearest doctor to the users' location using turf.nearestPoint
+// find the nearest point to the users' location using turf.nearestPoint
 var nearestPoint = turf.nearestPoint(userPoint, geojson);
 var nearestPointCoordinates = nearestPoint.geometry.coordinates;
 var address = nearestPoint.properties.address;
@@ -188,7 +188,7 @@ geocoder.on('result', function(e) {
 // get the search location
 var searchPoint = turf.point([e.result.center[0], e.result.center[1]]);
 
-// find the nearest doctor to the search location using turf.nearestPoint
+// find the nearest point to the search location using turf.nearestPoint
 var nearestPoint = turf.nearestPoint(searchPoint, geojson);
 var nearestPointCoordinates = nearestPoint.geometry.coordinates;
 var address = nearestPoint.properties.address;
